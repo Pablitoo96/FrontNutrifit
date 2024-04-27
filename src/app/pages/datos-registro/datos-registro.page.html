@@ -1,0 +1,41 @@
+<app-header-registro (onBack)="handleBack()"></app-header-registro>
+
+<ion-content>
+  <ion-progress-bar [value]="progress" class="progress-bar"></ion-progress-bar>
+  <ion-item lines="none" class="titulo">
+    <ion-label class="custom-title">
+      {{ currentQuestion }}
+    </ion-label>
+  </ion-item>
+
+<div class="datos">
+  <ion-item *ngIf="currentStep === 0">
+    <ion-label class="label" position="floating">Peso en kg</ion-label>
+    <ion-input type="number" [(ngModel)]="peso"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="currentStep === 1">
+    <ion-label class="label" position="floating">Altura en cm</ion-label>
+    <ion-input type="number" [(ngModel)]="altura"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="currentStep === 2">
+    <ion-label class="label" position="floating">Edad</ion-label>
+    <ion-input type="number" [(ngModel)]="edad"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="currentStep === 3">
+    <ion-label position="floating" class="label">Sexo</ion-label>
+    <ion-select [(ngModel)]="sexo">
+      <ion-select-option value="femenino">Femenino</ion-select-option>
+      <ion-select-option value="masculino">Masculino</ion-select-option>
+      <ion-select-option value="otro">Otro</ion-select-option>
+    </ion-select>
+  </ion-item>
+</div>
+  <ion-row class="btn">
+    <ion-col size="6">
+      <ion-button expand="block" (click)="previousStep()" [disabled]="currentStep === 0">Anterior</ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="block" (click)="validateAndAdvance()" [disabled]="false">Siguiente</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

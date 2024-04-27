@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrar Alimento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-input type="text" [(ngModel)]="alimento.nombre"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Calorías</ion-label>
+    <ion-input type="number" [(ngModel)]="alimento.informacion_nutricional.calorias"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Proteínas</ion-label>
+    <ion-input type="number" [(ngModel)]="alimento.informacion_nutricional.proteinas"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Carbohidratos</ion-label>
+    <ion-input type="number" [(ngModel)]="alimento.informacion_nutricional.carbohidratos"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Grasas</ion-label>
+    <ion-input type="number" [(ngModel)]="alimento.informacion_nutricional.grasas"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="registrarAlimento()">Registrar Alimento</ion-button>
+</ion-content>

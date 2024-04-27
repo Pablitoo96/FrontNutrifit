@@ -1,0 +1,25 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="informacion" selected="true">
+      <ion-icon name="nutrition-outline"></ion-icon>
+      <ion-label>Kcal</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="estadisticas">
+      <ion-icon name="stats-chart"></ion-icon>
+      <ion-label>Estadísticas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="user">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Información</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="cerrar" (click)="cerrarSesion()">
+      <ion-icon name="settings"></ion-icon>
+      <ion-label>Cerrar Sección</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

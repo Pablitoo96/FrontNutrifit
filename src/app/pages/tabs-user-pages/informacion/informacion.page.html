@@ -1,0 +1,91 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pablo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <canvas #doughnutCanvas></canvas>
+
+
+
+  <ion-list *ngIf="consumos && alimentos">
+    <!-- Iterar sobre cada elemento de consumos -->
+    <ng-container *ngFor="let consumo of consumos">
+      <!-- Verificar si consumo_alimentos existe en el elemento actual de consumos -->
+      <ion-item *ngIf="consumo.consumo_alimentos && consumo.consumo_alimentos.length > 0">
+        <!-- Iterar sobre cada elemento de consumo_alimentos -->
+        <ng-container *ngFor="let consumoAlimento of consumo.consumo_alimentos">
+          <ion-label style="display: flex; justify-content: space-between">{{ obtenerNombreAlimento(consumoAlimento.alimento_id || '') }} <div><span style="margin-right: 50px;">kcal {{obtenerkcalTotales(consumoAlimento.cantidad_gramos, consumoAlimento.alimento_id)}}  </span> <ion-icon (click)="eliminarConsumo(consumo)" name="trash-outline"></ion-icon></div></ion-label>
+        </ng-container>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+
+ <!-- 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+-->
+
+  
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+
+  <ion-fab-list side="top">
+    <ion-fab-button (click)="abrirModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+  <ion-fab-list side="start">
+    <ion-fab-button (click)="abrirModalRegistrarAlimento()">
+      <ion-icon name="nutrition-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+
+
+  
+<!-- Datos Peronales-->
+
+<!--
+  <ion-button (click)="openDatosPesonales = true;" type="submit" expand="block">Datos Personales</ion-button>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="openDatosPesonales">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Edad</ion-label>
+      <ion-input type="number" formControlName="age"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Peso (kg)</ion-label>
+      <ion-input type="number" formControlName="weight"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Altura (cm)</ion-label>
+      <ion-input type="number" formControlName="height"></ion-input>
+    </ion-item>
+  </div>
+
+    <ion-button *ngIf="openDatosPesonales" type="submit" expand="block"  (click)="guardarCambiosDatosPersonales()">Guardar Cambios</ion-button>
+  </form>
+-->
+
+
+
+</ion-content>

@@ -1,0 +1,62 @@
+.custom-title {
+    font-weight: bold; // Esto pone el título en negrita
+    font-size: 1.5rem; // Ajusta el tamaño del texto según necesites
+    margin-top: 15px; // Ajusta el margen superior para dejar espacio bajo el header
+    display: block; // Asegura que el label se muestre en bloque
+    height: 50px;
+  }
+  
+.titulo{
+    height: 70px;
+}
+
+.progress-bar {
+  --progress-background: #35BAA1;           /* Color del progreso */
+  --buffer-background: rgba(53, 186, 161, 0.5); /* Color de fondo más suavizado al blanco */
+}
+
+
+ion-row {
+    --ion-grid-column-padding: 8px; // Ajusta el padding entre columnas si es necesario
+  }
+  
+ion-button {
+    margin-top: 10px;
+    --background: #35BAA1;
+  }
+
+ .datos {
+    margin-top: 50px;
+ } 
+
+ .btn{
+    margin-top: 50px;
+ }
+
+ ion-item {
+    --padding-start: 10px; // Ajusta el padding interno para que el input se vea más grande
+    --padding-end: 10px;
+    --inner-padding-end: 10px;
+    --inner-padding-start: 10px;
+    --min-height: 50px; // Ajusta la altura mínima del item para hacerlo más grande
+  }
+  
+  ion-input {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --placeholder-color: mediumgray; // Cambia el color del placeholder si es necesario
+    --placeholder-opacity: 1; // Asegúrate de que el placeholder sea claramente visible
+    --color: dark; // Cambia el color del texto si es necesario
+    font-size: 1.2rem; // Aumenta el tamaño de la fuente para hacerlo más visible
+  }
+  
+  .label {
+    font-size: 1.5em !important; // Aumenta el tamaño de la fuente del label para mejorar la visibilidad
+    font-weight: bold;
+  }
+
+  ion-select {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    font-size: 1.5rem;
+  }

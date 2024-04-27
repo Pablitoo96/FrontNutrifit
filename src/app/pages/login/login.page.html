@@ -1,0 +1,21 @@
+<ion-content class="ion-padding">
+    <p class="title">NUTRIFIT</p>
+    <ion-list>
+        <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <!-- Vincula el valor del correo a la propiedad "correo" de tu componente -->
+            <ion-input type="email" [(ngModel)]="correo"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <!-- Vincula el valor de la contraseña a la propiedad "contrasenya" de tu componente -->
+            <ion-input type="password" [(ngModel)]="contrasenya"></ion-input>
+        </ion-item>
+    </ion-list>
+    <!-- Realiza la llamada al método iniciarSesion() cuando se hace clic en el botón -->
+    <ion-button class="btnInicio" expand="block" type="submit" (click)="iniciarSesion()">Iniciar sesión</ion-button>
+    <ion-text color="medium">
+        <p class="registrarme">¿No tienes cuenta? <a class="registrarmeHref" href="register.html" routerLink="/registro">Regístrate.</a></p>
+    </ion-text>
+
+  </ion-content>

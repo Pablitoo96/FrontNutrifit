@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Agregar consumo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Nombre del alimento</ion-label>
+      <ion-input type="text" [value]="alimento?.nombre" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Cantidad en gramos</ion-label>
+      <ion-input type="number" [(ngModel)]="gramos" (ionChange)="calcularTotales()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Calorías por 100g (kcal)</ion-label>
+      <ion-input type="number" [value]="alimento?.informacion_nutricional?.calorias" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Grasas por 100g (g)</ion-label>
+      <ion-input type="number" [value]="alimento?.informacion_nutricional?.grasas" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Proteínas por 100g (g)</ion-label>
+      <ion-input type="number" [value]="alimento?.informacion_nutricional?.proteinas" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Hidratos de carbono por 100g (g)</ion-label>
+      <ion-input type="number" [value]="alimento?.informacion_nutricional?.carbohidratos" disabled></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Calorías totales (kcal)</ion-label>
+      <ion-input type="number" [value]="caloriasTotales" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Grasas totales (g)</ion-label>
+      <ion-input type="number" [value]="grasasTotales" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Proteínas totales (g)</ion-label>
+      <ion-input type="number" [value]="proteinasTotales" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Hidratos de carbono totales (g)</ion-label>
+      <ion-input type="number" [value]="carbohidratosTotales" disabled></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" (click)="guardarAlimento()">Guardar</ion-button>
+</ion-content>

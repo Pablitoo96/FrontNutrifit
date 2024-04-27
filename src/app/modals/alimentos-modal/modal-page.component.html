@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Listado de Alimentos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar [(ngModel)]="filtro" (input)="filtrarAlimentos()"></ion-searchbar>
+
+  <ion-list>
+    <!-- Itera sobre la lista de alimentos y muestra cada uno -->
+    <ion-item *ngFor="let alimento of alimentosFiltrados">
+      <ion-label (click)="abrirAddAlimentoModal(alimento)">{{ alimento.nombre }} </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
