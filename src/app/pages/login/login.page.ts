@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
       const response = await this.usuarioService.login(this.correo!, this.contrasenya!).toPromise();
       console.log('Inicio de sesión exitoso:', response);
       localStorage.setItem('access_token', response.access_token);
-      localStorage.setItem('username',response.username)
+      localStorage.setItem('username',response.username);
       // Redirige al usuario a la página de perfil después del inicio de sesión exitoso
       console.log("login: ", response)
       this.correo = "";

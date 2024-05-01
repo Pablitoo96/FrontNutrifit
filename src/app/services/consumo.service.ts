@@ -12,6 +12,7 @@ import { ConsumoAlimentos } from '../models/consumoalimentos';
 export class ConsumoService {
 
   private apiUrl = 'https://nutri-fit-backend-railway.onrender.com/consumos';
+  private apiLocal = 'http://localhost:3000/consumos'
 
   constructor(private http: HttpClient) { }
 
@@ -39,11 +40,14 @@ export class ConsumoService {
     return this.http.get<any[]>(`${this.apiUrl}/usuario/${usuarioId}`);
   }
 
-
   obtenerConsumosPorUsuarioYFecha(usuarioId: string, fecha: Date): Observable<Consumo[]> {
     let params = new HttpParams()
       .set('fecha', fecha.toISOString().split('T')[0]); // Formatear la fecha como YYYY-MM-DD
 
     return this.http.get<Consumo[]>(`${this.apiUrl}/usuario/${usuarioId}/fecha`, { params });
+  }
+
+  obtenerTotalCaloriasPorUsuario(usuarioId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiLocal}/usuario/${usuarioId}/calorias`);
   }
 }

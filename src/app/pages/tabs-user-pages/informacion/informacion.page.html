@@ -1,7 +1,7 @@
 
 <ion-header>
   <ion-toolbar>
-    <ion-title>Pablo</ion-title>
+    <ion-title>{{user?.nombre}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,6 +11,11 @@
   <canvas #doughnutCanvas></canvas>
 
 
+  <ion-item (click)=abrirAlertAlimentos()>
+    <ion-badge slot="end">{{this.calcularCaloriasConsumidas()}}</ion-badge>
+    <ion-chip style="font-weight: bold;" [ngStyle]="{'background-color': calcularCaloriasConsumidas() > caloriasRecomendadas ? 'yellow' : '#d8dade'}">Calorias Consumidas  <ion-icon *ngIf="calcularCaloriasConsumidas() > caloriasRecomendadas" name="alert-circle-outline"></ion-icon></ion-chip>
+  </ion-item>
+
 
   <ion-list *ngIf="consumos && alimentos">
     <!-- Iterar sobre cada elemento de consumos -->
@@ -19,7 +24,7 @@
       <ion-item *ngIf="consumo.consumo_alimentos && consumo.consumo_alimentos.length > 0">
         <!-- Iterar sobre cada elemento de consumo_alimentos -->
         <ng-container *ngFor="let consumoAlimento of consumo.consumo_alimentos">
-          <ion-label style="display: flex; justify-content: space-between">{{ obtenerNombreAlimento(consumoAlimento.alimento_id || '') }} <div><span style="margin-right: 50px;">kcal {{obtenerkcalTotales(consumoAlimento.cantidad_gramos, consumoAlimento.alimento_id)}}  </span> <ion-icon (click)="eliminarConsumo(consumo)" name="trash-outline"></ion-icon></div></ion-label>
+          <ion-label style="display: flex; justify-content: space-between">{{ obtenerNombreAlimento(consumoAlimento.alimento_id || '') }} <div><span style="margin-right: 50px;">kcal {{obtenerkcalTotales(consumoAlimento.cantidad_gramos, consumoAlimento.alimento_id)}}  </span> <ion-icon (click)="abrirAlertAlimento(consumo)" name="information-circle-outline"></ion-icon> <ion-icon style="margin-left: 15px;" (click)="eliminarConsumo(consumo)" name="trash-outline"></ion-icon></div></ion-label>
         </ng-container>
       </ion-item>
     </ng-container>

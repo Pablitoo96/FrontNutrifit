@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import Chart, { ChartConfiguration } from 'chart.js/auto';
 import { ModalPageComponent } from '../../../modals/alimentos-modal/modal-page.component';
 import { ConsumoService } from 'src/app/services/consumo.service';
@@ -10,6 +10,7 @@ import { AlimentosService } from 'src/app/services/alimentos.service';
 import { CrearAlimento } from 'src/app/models/crearalimento';
 import { ModalService } from 'src/app/services/modal-service.service';
 import { RegistrarAlimentoComponent } from 'src/app/modals/registrar-alimento/registrar-alimento.component';
+import { Crearusuario } from 'src/app/models/crearUsuario';
 
 @Component({
   selector: 'app-informacion',
@@ -22,6 +23,8 @@ export class InformacionPage implements OnInit, AfterViewInit  {
   openDatosPesonales: boolean = false;
   consumos: ConsumoAlimentos [] | undefined;
   alimentos: CrearAlimento[] | undefined;
+  user: Crearusuario | undefined;
+  caloriasRecomendadas: number = 2000;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -29,7 +32,8 @@ export class InformacionPage implements OnInit, AfterViewInit  {
     private consumoService: ConsumoService,
     private usuarioService:UsuariosService,
     private alimentosService: AlimentosService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private alertController: AlertController) { }
 
   @ViewChild('doughnutCanvas') private calorieCanvas: ElementRef | undefined;
 
@@ -41,9 +45,8 @@ export class InformacionPage implements OnInit, AfterViewInit  {
   calorieChart: Chart | undefined;
 
   ngAfterViewInit() {
-    const totalCalories = 2000;  // Total diario recomendado
     const caloriesConsumed = this.calcularCaloriasConsumidas();  // Calorías consumidas
-    const caloriesRemaining = totalCalories - caloriesConsumed;  // Calorías restantes
+    const caloriesRemaining = this.caloriasRecomendadas - caloriesConsumed;  // Calorías restantes
 
     const config: ChartConfiguration = {
       type: 'doughnut',
@@ -81,6 +84,7 @@ export class InformacionPage implements OnInit, AfterViewInit  {
     });
     this.obtenerConsumosUsuarioDiaActual();
     this.registrarEventoModalCerrado();
+    this.obtenerUsuario();
   }
 
   onSubmit() {
@@ -195,17 +199,23 @@ export class InformacionPage implements OnInit, AfterViewInit  {
   }
 
   actualizarGrafico() {
-    // Aquí calculamos la suma total de calorías consumidas
+    // Calcular la suma total de calorías consumidas
     const caloriesConsumed = this.calcularCaloriasConsumidas();
-    const totalCalories = 2000;  // Total diario recomendado
-    const caloriesRemaining = totalCalories - caloriesConsumed;  // Calorías restantes
-  
-    // Actualizar los datos del gráfico
-    if (this.calorieChart) {
-      this.calorieChart.data.datasets[0].data = [caloriesConsumed, caloriesRemaining];
-      this.calorieChart.update();
+    let caloriesRemaining = this.caloriasRecomendadas - caloriesConsumed;
+
+    // Asegurarse de que las calorías restantes no sean negativas
+    if (caloriesRemaining < 0) {
+        caloriesRemaining = 0; // Establecer a 0 si las consumidas exceden las recomendadas
     }
 
+    // Configurar datos para el gráfico para reflejar la situación de no exceder el límite
+    const data = [caloriesConsumed, caloriesRemaining > 0 ? caloriesRemaining : 0]; // Asegura no tener valores negativos
+    
+    // Actualizar los datos del gráfico
+    if (this.calorieChart) {
+        this.calorieChart.data.datasets[0].data = data;
+        this.calorieChart.update();
+    }
 }
 
 eliminarConsumo(consumo: any): void {
@@ -247,5 +257,78 @@ obtenerkcalTotales(gramos: number, idAlimento?: string): number {
   }
 }
 
+
+async abrirAlertAlimento(consumo: ConsumoAlimentos) {
+  const alimento = this.alimentos!.find(a => a._id === consumo.consumo_alimentos[0].alimento_id);
+  const datosNutricionales = `
+Proteínas: ${(consumo.consumo_alimentos[0].cantidad_gramos * alimento?.informacion_nutricional!.proteinas! / 100).toFixed(2)}g
+Carbohidratos: ${(consumo.consumo_alimentos[0].cantidad_gramos * alimento?.informacion_nutricional!.carbohidratos! / 100).toFixed(2)}g 
+Grasas: ${(consumo.consumo_alimentos[0].cantidad_gramos * alimento?.informacion_nutricional!.grasas! / 100).toFixed(2)}g 
+Calorías: ${(consumo.consumo_alimentos[0].cantidad_gramos * alimento?.informacion_nutricional!.calorias! / 100).toFixed(2)} kcal
+  `;
+  const alert = await this.alertController.create({
+    header: 'Información Nutricional',
+    message: datosNutricionales,
+    buttons: ['OK']
+  });
+
+  await alert.present();
+}
+
+async abrirAlertAlimentos() {
+
+  let proteinas: number = 0;
+  let carbohidratos: number = 0;
+  let grasas: number = 0;
+  let calorias: number = 0;
+
+  this.consumos?.forEach(consumo => {
+    
+    let gramos = consumo.consumo_alimentos[0].cantidad_gramos
+    const alimentos: CrearAlimento[] = this.alimentos!.filter(a => a._id === consumo.consumo_alimentos[0].alimento_id);
+
+    alimentos?.forEach(alimento => {
+    proteinas += (gramos * alimento?.informacion_nutricional!.proteinas!) /100
+    carbohidratos += (gramos * alimento?.informacion_nutricional!.carbohidratos!) /100
+    grasas += (gramos * alimento?.informacion_nutricional!.grasas!) /100
+    calorias += (gramos * alimento?.informacion_nutricional!.calorias!) /100
+    })
+    
+  })
+
+  const datosNutricionales = `
+Proteínas: ${proteinas!}g
+Carbohidratos: ${carbohidratos!}g 
+Grasas: ${grasas!}g 
+Calorías: ${calorias!} kcal
+  `;
+  const alert = await this.alertController.create({
+    header: 'Datos Totales',
+    message: datosNutricionales,
+    buttons: ['OK']
+  });
+
+  await alert.present();
+}
+
+obtenerUsuario(){
+  this.usuarioService.getUserByEmail(localStorage.getItem("username")!).subscribe(user => {
+    this.user = user;
+    this.calcularCaloriasRecomendadas();
+  })
+}
+
+calcularCaloriasRecomendadas(){
+  let resultado = 2000;
+  if(this.user?.sexo === 'masculino'){
+    console.log(this.user)
+    resultado=88.362+(13.397*this.user.peso!)+(4.799*this.user.altura!)-(5.677*this.user.edad!);
+  }else{
+    resultado=447.593+(9.247*this.user!.peso!)+(3.098*this.user!.altura!)-(4.330*this.user!.edad!)
+  }
+  this.caloriasRecomendadas = resultado;
+  console.log(this.caloriasRecomendadas)
+  this.actualizarGrafico();
+}
 
 }

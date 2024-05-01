@@ -45,11 +45,12 @@ export class DatosRegistroPage implements OnInit {
 
       const newUser: Crearusuario = {
         nombre: this.nombre!,
-        correo: this.email!,
+        correo: this.email!.toLowerCase(),
         contrasenya_hash: this.contrasenya!,
         peso: this.peso,
         altura: this.altura,
         edad: this.edad,
+        sexo: this.sexo
       };
   
       // Hacer la llamada al servicio

@@ -22,7 +22,6 @@ export class ModalPageComponent implements OnInit {
     private modalController: ModalController,
     private alimentosService: AlimentosService, // Inyecta el servicio de alimentos
     private modalService: ModalService,
-    private router: Router
   ) {}
 
   ngOnInit() {
